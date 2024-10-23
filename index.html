@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Machine Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #282c34;
+            margin: 0;
+            color: white;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .slot-machine {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 300px;
+        }
+        .slots {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .slot {
+            background-color: #eee;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            color: #333;
+        }
+        @keyframes spin {
+            0% { transform: rotateX(0); }
+            100% { transform: rotateX(360deg); }
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+        button:active {
+            background-color: #218838;
+        }
+        #stopButton {
+            background-color: #dc3545;
+        }
+        #stopButton:active {
+            background-color: #c82333;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+<h1>Slot Machine Game</h1>
+<div class="slot-machine">
+    <div class="slots">
+        <div class="slot" id="slot1">7</div>
+        <div class="slot" id="slot2">7</div>
+        <div class="slot" id="slot3">7</div>
+    </div>
+    <div>
+        <button onclick="startSpin()">SPIN</button>
+        <button id="stopButton" onclick="stopSpin()">STOP</button>
+    </div>
+    <div id="result"></div>
+</div>
+<script>
+    const symbols = ['🍒', '🍋', '🍊', '⭐', '🔔', '7'];
+    let spinning = false;
+    let spinInterval;
+    function startSpin() {
+        if (!spinning) {
+            spinning = true;
+            document.getElementById('result').textContent = '';
+            spinInterval = setInterval(() => {
+                document.getElementById('slot1').textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                document.getElementById('slot2').textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                document.getElementById('slot3').textContent = symbols[Math.floor(Math.random() * symbols.length)];
+            }, 100);  // Spin speed
+        }
+    }
+    function stopSpin() {
+        if (spinning) {
+            clearInterval(spinInterval);
+            spinning = false;
+            checkResult();
+        }
+    }
+    function checkResult() {
+        const slot1 = document.getElementById('slot1').textContent;
+        const slot2 = document.getElementById('slot2').textContent;
+        const slot3 = document.getElementById('slot3').textContent;
+        if (slot1 === slot2 && slot2 === slot3) {
+            document.getElementById('result').textContent = 'You Win!';
+        } else {
+            document.getElementById('result').textContent = 'Try Again!';
+        }
+    }
+</script>
+</body>
+</html>
